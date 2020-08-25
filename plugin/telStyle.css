@@ -1,0 +1,18 @@
+.trans-but{
+	color: #15AAF0;
+	user-select: none;
+	display: inline-block;
+	text-decoration: underline;
+}
+
+.trans-but:hover{
+	text-decoration: none;
+}
+
+.trans-text{
+
+}
+
+.hide{
+	display: none;
+}

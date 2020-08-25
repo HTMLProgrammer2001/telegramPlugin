@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+
+    "name": "Telegram AudioToText",
+    "description": "This extension will transform audio file to text",
+    "version": "1.0",
+
+    "permissions": [
+        "activeTab"
+    ],
+
+    "icons": {
+        "16": "icon.png"
+    },
+
+    "content_scripts": [{
+        "matches": ["https://web.telegram.org/*"],
+        "js": ["telScript.js"],
+        "css": ["telStyle.css"]
+    }]
+}
