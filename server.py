@@ -4,9 +4,6 @@ from werkzeug.utils import secure_filename
 import speech_recognition as sr
 import ffmpeg
 
-
-app = Flask(__name__)
-
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = ['wav']
 
@@ -36,27 +33,34 @@ def convertFile(path):
 	return savePath
 
 
-@app.route('/translate', methods=['POST'])
-def translate():
-	try:
-		file = request.files.get('audio')
+def create_app():
+	app = Flask(__name__)
 
-		print(file.filename)
+	@app.route('/translate', methods=['POST'])
+	def translate():
+		try:
+			file = request.files.get('audio')
 
-		if not file or not allowed_file(file.filename):
-			return "Not found audio file", 422
+			print(file.filename)
 
-		path = os.path.join(UPLOAD_FOLDER, 'audio.wav')
+			if not file or not allowed_file(file.filename):
+				return "Not found audio file", 422
 
-		file.save(path)
-		path = convertFile(path)
+			path = os.path.join(UPLOAD_FOLDER, 'audio.wav')
 
-		resp = Response(recognize(path))
-		resp.headers['Access-Control-Allow-Origin'] = '*'
+			file.save(path)
+			path = convertFile(path)
 
-		return resp
+			resp = Response(recognize(path))
+			resp.headers['Access-Control-Allow-Origin'] = '*'
 
-	except Exception as e:
-		return "Error occure", 500
+			return resp
 
-app.run(port=9000, debug=True)
+		except Exception as e:
+			return "Error occure", 500
+
+	return app
+
+if __name__ == '__main__':
+	app = create_app()
+	app.run(port=9000, debug=True)
