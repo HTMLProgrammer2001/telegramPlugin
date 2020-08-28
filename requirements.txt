@@ -1,4 +1,4 @@
 flask
 gunicorn
-speech_recognition
+SpeechRecognition
 ffmpeg-python
