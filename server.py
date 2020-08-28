@@ -33,34 +33,30 @@ def convertFile(path):
 	return savePath
 
 
-def create_app():
-	app = Flask(__name__)
+app = Flask(__name__)
 
-	@app.route('/translate', methods=['POST'])
-	def translate():
-		try:
-			file = request.files.get('audio')
+@app.route('/translate', methods=['POST'])
+def translate():
+	try:
+		file = request.files.get('audio')
 
-			print(file.filename)
+		print(file.filename)
 
-			if not file or not allowed_file(file.filename):
-				return "Not found audio file", 422
+		if not file or not allowed_file(file.filename):
+			return "Not found audio file", 422
 
-			path = os.path.join(UPLOAD_FOLDER, 'audio.wav')
+		path = os.path.join(UPLOAD_FOLDER, 'audio.wav')
 
-			file.save(path)
-			path = convertFile(path)
+		file.save(path)
+		path = convertFile(path)
 
-			resp = Response(recognize(path))
-			resp.headers['Access-Control-Allow-Origin'] = '*'
+		resp = Response(recognize(path))
+		resp.headers['Access-Control-Allow-Origin'] = '*'
 
-			return resp
+		return resp
 
-		except Exception as e:
-			return "Error occure", 500
-
-	return app
+	except Exception as e:
+		return "Error occure", 500
 
 if __name__ == '__main__':
-	app = create_app()
 	app.run(port=9000, debug=True)
