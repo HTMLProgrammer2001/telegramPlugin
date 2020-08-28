@@ -1,0 +1,4 @@
+flask
+gunicorn
+speech_recognition
+ffmpeg-python
